@@ -1,1 +1,2 @@
 - [Alcance nativo universal](product-scope.md) — Windows C++/Qt/libobs, no web; captura para juegos y aplicaciones, sin exclusividad de CS2 ni simulaciones.
+- [Diagnóstico de CI Windows](windows-ci-diagnostics.md) — los transcripts de PowerShell pueden omitir la salida nativa; pedir el archivo completo de registros de GitHub.

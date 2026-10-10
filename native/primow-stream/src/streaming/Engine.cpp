@@ -121,11 +121,11 @@ void Engine::start(const QString &server, const QString &key, int bitrate, int p
     obs_output_set_video_encoder(output, video);
     obs_output_set_audio_encoder(output, aac, 0);
     obs_output_set_reconnect_settings(output, 5, 3);
-    auto signals = obs_output_get_signal_handler(output);
-    signal_handler_connect(signals, "start", started, this);
-    signal_handler_connect(signals, "stop", stopped, this);
-    signal_handler_connect(signals, "reconnect", reconnect, this);
-    signal_handler_connect(signals, "reconnect_success", reconnected, this);
+    auto outputSignalHandler = obs_output_get_signal_handler(output);
+    signal_handler_connect(outputSignalHandler, "start", started, this);
+    signal_handler_connect(outputSignalHandler, "stop", stopped, this);
+    signal_handler_connect(outputSignalHandler, "reconnect", reconnect, this);
+    signal_handler_connect(outputSignalHandler, "reconnect_success", reconnected, this);
     running = true; previousBytes = 0; previousTime = QDateTime::currentMSecsSinceEpoch();
     emit stateChanged("Conectando");
     if (!obs_output_start(output)) {
