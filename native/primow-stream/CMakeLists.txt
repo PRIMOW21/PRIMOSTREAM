@@ -18,4 +18,10 @@ qt_add_executable(primow-stream WIN32
 target_compile_definitions(primow-stream PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN UNICODE _UNICODE)
 target_compile_options(primow-stream PRIVATE /W4 /utf-8)
 target_link_libraries(primow-stream PRIVATE Qt6::Widgets OBS::libobs advapi32 dwmapi)
+# The pinned OBS Qt package deliberately disables windeployqt. Reuse OBS's
+# Windows bundler to install linked DLLs, module dependencies and Qt plugins.
+if(NOT COMMAND _bundle_dependencies)
+  message(FATAL_ERROR "Pinned OBS Windows dependency bundler is unavailable.")
+endif()
+_bundle_dependencies(primow-stream)
 install(TARGETS primow-stream RUNTIME DESTINATION bin/64bit)

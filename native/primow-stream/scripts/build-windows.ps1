@@ -28,12 +28,10 @@ try {
     Run cmake @("--build", "build_x64", "--config", "Release", "--parallel")
     Run cmake @("--install", "build_x64", "--config", "Release", "--prefix", $Stage)
 } finally { Pop-Location }
-$Deploy = Get-ChildItem "$Obs/.deps" -Recurse -Filter windeployqt.exe | Select-Object -First 1
-if (!$Deploy) { throw "windeployqt not found in pinned OBS dependencies" }
-Run $Deploy.FullName @("--release", "--no-translations", "--no-opengl-sw",
-    "$Stage/bin/64bit/primow-stream.exe")
+# CMake installs runtime dependencies using the pinned OBS Windows bundler.
 $Required = @("bin/64bit/primow-stream.exe", "bin/64bit/obs.dll",
     "bin/64bit/libobs-d3d11.dll", "bin/64bit/platforms/qwindows.dll",
+    "bin/64bit/Qt6Core.dll", "bin/64bit/Qt6Gui.dll", "bin/64bit/Qt6Widgets.dll",
     "obs-plugins/64bit/win-capture.dll", "obs-plugins/64bit/win-wasapi.dll",
     "obs-plugins/64bit/obs-nvenc.dll", "obs-plugins/64bit/obs-ffmpeg.dll",
     "obs-plugins/64bit/obs-outputs.dll", "obs-plugins/64bit/rtmp-services.dll")

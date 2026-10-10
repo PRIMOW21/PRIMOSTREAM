@@ -24,6 +24,8 @@ La primera compilación descarga OBS 31.0.3 y sus dependencias fijadas por
 buildspec.json (incluye hashes); usa su grafo CMake para evitar mezclar ABIs.
 El script añade PRIMOW a la copia de OBS descargada, no modifica el repositorio
 original. OBS UI, navegador, scripting y otras funciones no necesarias se desactivan.
+Las DLL y los plugins de Qt se empaquetan con el mecanismo de dependencias de
+OBS 31.0.3. No se usa `windeployqt`: el paquete Qt fijado por OBS lo desactiva.
 El CI desactiva el tratamiento de advertencias como errores para OBS 31.0.3:
 MSVC actual emite avisos C5287 por conversiones entre enums en filtros NVIDIA y
 captura Windows. Los avisos siguen visibles; la opción no cambia el comportamiento

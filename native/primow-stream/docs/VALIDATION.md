@@ -6,9 +6,13 @@
 - Contraste de IDs de NVENC, captura de ventana, captura WASAPI por proceso,
   parámetros preset/multipass/rate_control y firmas públicas de libobs.
 
-Esto no equivale a una compilación ni prueba de ejecución.
+El CI Windows/MSVC llegó a compilar e instalar `primow-stream.exe` en el
+directorio de preparación. El empaquetado falló después por buscar
+`windeployqt`, que las dependencias Qt de OBS no incluyen. Se cambió al
+empaquetador de dependencias de OBS; ese cambio aún debe verificarse en CI.
+Esto no equivale a una prueba de ejecución ni a un instalador validado.
 
-## Automatización preparada, no ejecutada
+## Automatización preparada, ejecución completa aún pendiente
 - Workflow Windows 2022/MSVC: descarga dependencias, compila, instala,
   despliega Qt, comprueba archivos esenciales, genera paquetes y guarda logs.
 - El inventario de archivos NO prueba resolución transitiva de DLL.
