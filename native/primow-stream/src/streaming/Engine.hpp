@@ -10,11 +10,12 @@ public:
     explicit Engine(QObject *parent = nullptr);
     ~Engine();
     void initialize();
-    void select(Capture method, const QString &window, int monitor = 0);
+    void select(Capture method, const QString &window, const QString &monitorId = {});
     void audio(bool application, const QString &window);
     void mute(bool microphone, bool value);
     void volume(float value);
-    void start(const QString &server, const QString &key, int bitrate, int profile);
+    void start(const QString &server, const QString &key, const QString &serviceName,
+               int bitrate, int profile);
     void stop();
     bool busy() const { return running; }
     QString metrics();

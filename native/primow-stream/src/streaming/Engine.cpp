@@ -5,8 +5,30 @@
 #include <QMetaObject>
 #include <stdexcept>
 #include <util/base.h>
+#include <windows.h>
 namespace primow {
 static void require(bool ok, const char *message) { if (!ok) throw std::runtime_error(message); }
+static QString primaryMonitorId() {
+    struct Result { QString id; };
+    Result result;
+    EnumDisplayMonitors(nullptr, nullptr, [](HMONITOR monitor, HDC, LPRECT, LPARAM data) -> BOOL {
+        MONITORINFOEXA info{};
+        info.cbSize = sizeof(info);
+        if (!GetMonitorInfoA(monitor, reinterpret_cast<LPMONITORINFO>(&info)) ||
+            !(info.dwFlags & MONITORINFOF_PRIMARY)) return TRUE;
+        DISPLAY_DEVICEA device{};
+        device.cb = sizeof(device);
+        auto &out = *reinterpret_cast<Result *>(data);
+        if (EnumDisplayDevicesA(info.szDevice, 0, &device, EDD_GET_DEVICE_INTERFACE_NAME) &&
+            device.DeviceID[0] != '\0') {
+            out.id = QString::fromLocal8Bit(device.DeviceID);
+        } else {
+            out.id = QString::fromLocal8Bit(info.szDevice);
+        }
+        return FALSE;
+    }, reinterpret_cast<LPARAM>(&result));
+    return result.id;
+}
 // Discard engine logs: plugin messages can contain endpoint/credential material.
 // A future diagnostic sink must use an explicit allowlist, not string redaction.
 static void privateLog(int, const char *, va_list, void *) {}
@@ -42,15 +64,18 @@ void Engine::initialize() {
     obs_set_output_source(1, mic);
     audio(false, {});
 }
-void Engine::select(Capture method, const QString &window, int monitor) {
+void Engine::select(Capture method, const QString &window, const QString &monitorId) {
     auto s = obs_data_create();
     obs_data_set_string(s, "window", window.toUtf8().constData());
     obs_data_set_int(s, "priority", 0);
-    obs_data_set_int(s, "method", method == Capture::Window ? 2 : 0);
+    const bool display = method == Capture::Display;
+    const QString selectedMonitor = display ? primaryMonitorId() : monitorId;
+    require(!display || !selectedMonitor.isEmpty(), "No se pudo detectar la pantalla principal de Windows");
+    obs_data_set_int(s, "method", display ? 1 : method == Capture::Window ? 2 : 0);
     obs_data_set_string(s, "capture_mode", "window");
     obs_data_set_bool(s, "capture_cursor", true);
     obs_data_set_bool(s, "allow_transparency", false);
-    obs_data_set_int(s, "monitor", monitor);
+    if (display) obs_data_set_string(s, "monitor_id", selectedMonitor.toUtf8().constData());
     const char *id = method == Capture::Game ? "game_capture" :
                      method == Capture::Display ? "monitor_capture" : "window_capture";
     auto next = obs_source_create(id, "Fuente", s, nullptr);
@@ -89,7 +114,8 @@ void Engine::volume(float value) { if (mic) obs_source_set_volume(mic, value); }
 bool Engine::captureReady() const {
     return capture && obs_source_get_width(capture) > 0 && obs_source_get_height(capture) > 0;
 }
-void Engine::start(const QString &server, const QString &key, int bitrate, int profile) {
+void Engine::start(const QString &server, const QString &key, const QString &serviceName,
+                   int bitrate, int profile) {
     if (running) return;
     require(captureReady(), "Fuente sin imagen. Prueba ventana sin bordes u otro método.");
     releaseOutput();
@@ -113,7 +139,8 @@ void Engine::start(const QString &server, const QString &key, int bitrate, int p
     s = obs_data_create();
     obs_data_set_string(s, "server", server.toUtf8().constData());
     obs_data_set_string(s, "key", key.toUtf8().constData());
-    service = obs_service_create("rtmp_custom", "Kick", s, nullptr); obs_data_release(s);
+    service = obs_service_create("rtmp_custom", serviceName.toUtf8().constData(), s, nullptr);
+    obs_data_release(s);
     require(service, "Servicio RTMP no disponible");
     output = obs_output_create("rtmp_output", "Transmisión", nullptr, nullptr);
     require(output, "Salida RTMP no disponible");

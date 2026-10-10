@@ -36,7 +36,10 @@ MSVC y herramientas del runner aún no son herméticas: revisar actualizaciones 
 ## Implementación presente, pendiente de validación Windows
 
 - Enumeración de ventanas visibles de cualquier ejecutable, sin lista cerrada de juegos.
-- Selección explícita de WGC, captura de juego estándar de OBS o pantalla principal.
+- Selector de destino RTMP(S) para Kick, Twitch, TikTok LIVE y cualquier servidor personalizado.
+- Direcciones seguras predeterminadas para Kick y Twitch; TikTok requiere la URL y clave que la cuenta pueda obtener en LIVE Center.
+- Claves separadas por destino en Windows Credential Manager; los enlaces de canal no son URLs de ingesta.
+- Selección explícita de ventana WGC, captura de juego OBS o monitor principal por DXGI (no usa el método WGC para pantalla completa).
 - Cambio de fuente en la misma escena, conservando salida y codificadores.
 - Seguimiento opcional del primer plano, solo de ejecutables autorizados durante la sesión.
 - Micrófono WASAPI independiente, volumen y silencios; audio del sistema o de aplicación.
@@ -51,8 +54,8 @@ MSVC y herramientas del runner aún no son herméticas: revisar actualizaciones 
 ## Límites actuales / pendientes
 
 No es todavía una versión final distribuible. Quedan: compilación y depuración
-Windows; previsualización nativa y suspensión de su renderizado; medidores y prueba
-de audio; selector de dispositivos y de monitores; asistente inicial; clasificación
+Windows de estos cambios; previsualización nativa y suspensión de su renderizado; medidores y prueba
+de audio; selector de dispositivos y de monitores secundarios; asistente inicial; clasificación
 heurística de juegos (actualmente se enumeran ventanas, no se afirma que sean juegos);
 autorefresco de lista; seguimiento con validación robusta del ejecutable; diagnóstico
 de cuadros negros por muestreo (dimensiones no bastan); confirmación del fallback
@@ -61,17 +64,20 @@ reconexión configurable; diagnóstico GPU/NVENC detallado; benchmarks; logs seg
 persistencia completa de fuentes/audio y auditoría de distribución/licencias.
 
 La aplicación advierte sobre fuentes sin dimensiones, pero no puede distinguir aún
-pantallas negras válidas de bloqueo de captura. No cambiará silenciosamente a pantalla
-completa porque puede exponer notificaciones. El audio del sistema incluye otras apps;
+pantallas negras válidas de bloqueo de captura. La captura de pantalla completa del
+monitor principal requiere confirmación porque puede exponer notificaciones. El audio del sistema incluye otras apps;
 la captura por aplicación depende de la versión de Windows y del soporte WASAPI.
-No existe garantía de compatibilidad con todos los juegos o anticheats.
+El método DXGI evita pedir el indicador de borde de Windows Graphics Capture para la
+captura de pantalla completa. No se intenta ocultar indicadores del sistema que Windows
+muestre por su cuenta. No existe garantía de compatibilidad con todos los juegos o anticheats.
 
 Preferencias no secretas: QSettings en AppData. Stream Key: Windows Credential Manager.
-Para borrar la clave: Administrador de credenciales → Credenciales de Windows →
-PRIMOW-STREAM/Kick. No introducir claves en GitHub Actions.
+Para borrar una clave: Administrador de credenciales → Credenciales de Windows →
+PRIMOW-STREAM/Kick, PRIMOW-STREAM/Twitch, PRIMOW-STREAM/TikTok o
+PRIMOW-STREAM/Personalizado. No introducir claves en GitHub Actions.
 
 ## Pruebas
 
-Ver `docs/VALIDATION.md`. No se han realizado pruebas Windows, Kick ni benchmarks.
+Ver `docs/VALIDATION.md`. No se han realizado pruebas Windows, transmisiones a plataformas ni benchmarks.
 El entorno Linux no dispone de Windows/MSVC, NVENC ni dispositivos del PC del usuario.
 El workflow está preparado pero no se ha ejecutado desde este entorno.
