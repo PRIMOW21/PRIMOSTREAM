@@ -23,7 +23,8 @@ Push-Location $Obs
 try {
     Run cmake @("--preset", "windows-x64", "-DENABLE_UI=OFF", "-DENABLE_BROWSER=OFF",
         "-DENABLE_VLC=OFF", "-DENABLE_SCRIPTING=OFF", "-DENABLE_AJA=OFF",
-        "-DENABLE_DECKLINK=OFF", "-DENABLE_WEBRTC=OFF", "-DENABLE_VIRTUALCAM=OFF")
+        "-DENABLE_DECKLINK=OFF", "-DENABLE_WEBRTC=OFF", "-DENABLE_VIRTUALCAM=OFF",
+        "-DCMAKE_COMPILE_WARNING_AS_ERROR=OFF")
     Run cmake @("--build", "build_x64", "--config", "Release", "--parallel")
     Run cmake @("--install", "build_x64", "--config", "Release", "--prefix", $Stage)
 } finally { Pop-Location }

@@ -24,6 +24,10 @@ La primera compilación descarga OBS 31.0.3 y sus dependencias fijadas por
 buildspec.json (incluye hashes); usa su grafo CMake para evitar mezclar ABIs.
 El script añade PRIMOW a la copia de OBS descargada, no modifica el repositorio
 original. OBS UI, navegador, scripting y otras funciones no necesarias se desactivan.
+El CI desactiva el tratamiento de advertencias como errores para OBS 31.0.3:
+MSVC actual emite avisos C5287 por conversiones entre enums en filtros NVIDIA y
+captura Windows. Los avisos siguen visibles; la opción no cambia el comportamiento
+del programa ni modifica el código fuente de OBS.
 La versión 31.0.3 es una base fijada e inspeccionada, no una afirmación de ser la más reciente.
 MSVC y herramientas del runner aún no son herméticas: revisar actualizaciones del runner.
 
