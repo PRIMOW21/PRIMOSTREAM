@@ -1,6 +1,10 @@
-# [Project name]
+# PRIMOW STREAM
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Proyecto principal: aplicación nativa Windows en `native/primow-stream`.
+Consultar su README y `docs/VALIDATION.md` para compilación y estado real.
+Las carpetas pnpm siguientes son plantilla preexistente, no el motor de streaming.
+No reemplazar el producto nativo por una web. Windows/MSVC son necesarios para
+compilar y validar captura, NVENC y RTMPS; el navegador no sirve para esas pruebas.
 
 ## Run & Operate
 

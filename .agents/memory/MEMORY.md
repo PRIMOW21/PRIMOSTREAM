@@ -1,0 +1,1 @@
+- [Alcance nativo universal](product-scope.md) — Windows C++/Qt/libobs, no web; captura para juegos y aplicaciones, sin exclusividad de CS2 ni simulaciones.

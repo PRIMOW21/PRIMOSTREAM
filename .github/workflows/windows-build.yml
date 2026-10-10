@@ -1,0 +1,35 @@
+name: PRIMOW STREAM Windows build
+on:
+  workflow_dispatch:
+  push:
+    paths: ["native/primow-stream/**", ".github/workflows/windows-build.yml"]
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build native Windows application and development packages
+        shell: pwsh
+        run: |
+          Start-Transcript -Path "$env:RUNNER_TEMP/primow-build.log"
+          try { ./native/primow-stream/scripts/build-windows.ps1 }
+          finally { Stop-Transcript }
+      - name: Upload development binaries (not hardware-validated)
+        uses: actions/upload-artifact@v4
+        with:
+          name: PRIMOW-STREAM-Windows-development
+          path: |
+            generated-artifacts/windows/PRIMOW-STREAM-Setup.exe
+            generated-artifacts/windows/PRIMOW-STREAM-Portable.zip
+          if-no-files-found: error
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build-logs
+          path: |
+            ${{ runner.temp }}/primow-build.log
+            generated-artifacts/windows/obs/build_x64/CMakeFiles/CMakeConfigureLog.yaml

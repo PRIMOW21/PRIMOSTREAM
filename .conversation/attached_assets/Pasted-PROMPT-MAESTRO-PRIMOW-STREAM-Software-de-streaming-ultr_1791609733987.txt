@@ -1,0 +1,839 @@
+PROMPT MAESTRO — PRIMOW STREAM
+
+Software de streaming ultraligero para Windows
+
+Actúa como un equipo senior de ingeniería de software especializado en C++20, aplicaciones nativas para Windows, Qt 6, libobs, NVIDIA NVENC, DirectX, captura de videojuegos y procesamiento audiovisual de baja latencia.
+
+Tu misión es desarrollar y entregar un programa de streaming completamente funcional, instalable y ejecutable en Windows, llamado PRIMOW STREAM.
+
+NO quiero una página web, una PWA, una maqueta visual ni una aplicación que dependa de Replit para ejecutarse.
+
+Quiero un software independiente que pueda instalar en mi PC y utilizar como alternativa a OBS Studio, pero con una interfaz muchísimo más básica, intuitiva y ligera.
+
+La prioridad absoluta es transmitir videojuegos competitivos con la menor pérdida de rendimiento posible.
+
+---
+
+1. OBJETIVO DEL PRODUCTO
+
+Crear un software con estas características:
+
+- Extremadamente ligero.
+- Muy bajo consumo de CPU.
+- Uso eficiente de RAM y VRAM.
+- Codificación por hardware.
+- Mínimo impacto posible en los FPS de los videojuegos.
+- Baja latencia.
+- Funcionamiento estable.
+- Interfaz moderna y minimalista.
+- Configuración inicial muy sencilla.
+- Un solo botón para comenzar a transmitir.
+- Instalación local en Windows.
+- Funcionamiento completamente independiente de Replit.
+- Sin suscripciones.
+- Sin servidores intermediarios.
+- Sin publicidad.
+- Sin telemetría innecesaria.
+
+Principio fundamental:
+
+No quiero desarrollar otro OBS con cientos de configuraciones.
+
+Quiero aprovechar un motor de transmisión profesional ya existente y construir encima una aplicación mucho más simple.
+
+La aplicación debe concentrarse en hacer pocas cosas, pero hacerlas extraordinariamente bien.
+
+---
+
+2. MI HARDWARE Y PERFIL DE USO
+
+Optimizar inicialmente para este computador:
+
+Procesador:
+AMD Ryzen 7 7800X3D.
+
+Tarjeta gráfica:
+NVIDIA RTX 4070 Super.
+
+Monitor:
+ASUS OLED 2560 × 1440 a 480 Hz.
+
+Sistema operativo:
+Windows 11 de 64 bits.
+
+Juego principal:
+Counter-Strike 2.
+
+Plataforma de streaming:
+Kick.
+
+Resolución de transmisión:
+1920 × 1080.
+
+Frecuencia de transmisión:
+60 FPS.
+
+Micrófono:
+Activado.
+
+Cámara web:
+Desactivada.
+
+Objetivo competitivo:
+
+Juego CS2 con alta frecuencia de actualización y priorizo la respuesta del mouse, la estabilidad de frametimes y la cantidad de FPS.
+
+La aplicación jamás debe limitar la frecuencia del monitor a 60 Hz por transmitir a 60 FPS.
+
+Debe permitir jugar a 480 Hz mientras codifica y envía video a 60 FPS.
+
+Es importante evitar interrupciones, stuttering y saturación de GPU por procesos de streaming.
+
+No prometas que es posible eliminar completamente el impacto de transmitir: debes optimizarlo y medirlo.
+
+---
+
+3. ARQUITECTURA TÉCNICA OBLIGATORIA
+
+Desarrollar una aplicación verdaderamente nativa.
+
+Tecnologías preferidas:
+
+- C++20.
+- Qt 6 Widgets.
+- libobs como motor audiovisual.
+- NVIDIA NVENC para codificación.
+- Direct3D 11 donde corresponda.
+- WASAPI para captura de audio.
+- RTMP/RTMPS para transmisión.
+- CMake para gestión de compilación.
+- MSVC x64 para compilación en Windows.
+
+No utilizar:
+
+- Electron.
+- Chromium embebido.
+- Aplicaciones web empaquetadas.
+- Python como motor principal.
+- Servidores Node.js necesarios durante el streaming.
+- Bases de datos en la nube.
+- Interfaces web locales.
+- WebRTC cuando RTMPS directo sea suficiente.
+
+Utilizar libobs, no automatizar OBS Studio.
+
+La aplicación debe controlar directamente el motor libobs.
+
+Integrar y distribuir solamente los módulos y dependencias necesarios para las funciones implementadas, respetando sus licencias.
+
+Investigar y fijar una versión estable y compatible de OBS/libobs.
+
+Incluir los módulos necesarios para:
+
+- Captura de ventanas o pantalla en Windows.
+- Captura de audio.
+- NVIDIA NVENC.
+- Codificación AAC.
+- Salida RTMP/RTMPS.
+- Procesamiento audiovisual.
+
+Validar los nombres, las APIs y la compatibilidad reales de los módulos para la versión seleccionada.
+
+La aplicación final no debe requerir tener OBS Studio instalado.
+
+---
+
+4. INTERFAZ VISUAL
+
+Diseñar una aplicación llamada:
+
+PRIMOW STREAM
+
+Estilo visual:
+
+- Negro grafito.
+- Gris oscuro.
+- Acentos rojos.
+- Verde para indicar transmisión estable.
+- Tipografía moderna.
+- Botones grandes y claros.
+- Diseño elegante y deportivo.
+- Sin animaciones pesadas.
+- Sin menús complejos.
+- Sin ventanas innecesarias.
+
+El resultado debe parecer un software gaming premium, pero su simplicidad tiene que ser superior a la de OBS Studio.
+
+Pantalla principal
+
+Mostrar solamente:
+
+A. Encabezado
+
+- Logo PRIMOW STREAM.
+- Estado de transmisión.
+- Acceso pequeño a configuración.
+
+B. Vista previa
+
+- Imagen del juego seleccionado.
+- Nombre del juego.
+- Opción para ocultar vista previa.
+
+C. Selección de transmisión
+
+- Plataforma: Kick.
+- Calidad: 1080p 60 FPS.
+- Fuente: Counter-Strike 2.
+
+D. Audio
+
+- Micrófono activado.
+- Audio del juego activado.
+- Cámara desactivada.
+- Barras de nivel de audio.
+- Botones de silencio.
+
+E. Botón principal
+
+Gran botón:
+
+INICIAR STREAM
+
+Cuando esté transmitiendo:
+
+DETENER STREAM
+
+Durante la transmisión
+
+Mostrar solamente estas métricas:
+
+- Tiempo transmitido.
+- Bitrate actual.
+- FPS transmitidos.
+- Frames perdidos.
+- Estado de conexión.
+
+Las configuraciones avanzadas deben permanecer ocultas salvo que el usuario las necesite.
+
+---
+
+5. SISTEMA DE STREAMING REAL
+
+Implementar transmisión directa desde el PC hacia Kick.
+
+Configuración predeterminada:
+
+Parámetro| Configuración
+Plataforma| Kick
+Resolución| 1920 × 1080
+FPS| 60
+Codec| H.264
+Encoder| NVIDIA NVENC
+Bitrate inicial| 6.000 kbps
+Bitrate máximo| 8.000 kbps
+Rate Control| CBR
+Keyframe Interval| 2 segundos
+Perfil H.264| Main
+Multipass| Single Pass
+Audio| AAC estéreo
+Frecuencia de audio| 48 kHz
+Bitrate de audio| 160 kbps
+
+Seleccionar un preset NVENC compatible que priorice bajo consumo y buena calidad.
+
+Permitir comparar presets como P4, P5 y P6, si están disponibles, para elegir el mejor equilibrio entre calidad y rendimiento.
+
+No aplicar valores incompatibles con Kick.
+
+Permitir modificar el bitrate desde un menú avanzado.
+
+Conexión a Kick:
+
+Crear una sección inicial donde el usuario ingrese:
+
+- URL del servidor de transmisión.
+- Stream Key.
+
+Permitir copiarlas directamente desde el panel de creador de Kick.
+
+No inventar credenciales ni pedir contraseñas de la cuenta Kick.
+
+Guardar la clave de forma segura usando DPAPI o Windows Credential Manager.
+
+Nunca almacenar la Stream Key en texto plano, archivos públicos, logs o repositorios Git.
+
+Nunca enviar la clave a servidores de Replit.
+
+Incluir prueba de configuración local y validación de formato, pero no iniciar una transmisión real sin una acción explícita del usuario.
+
+Implementar los estados:
+
+Desconectado → Conectando → En vivo → Reconectando → Finalizado.
+
+Manejar correctamente interrupciones de conexión.
+
+No cerrar el programa si el servidor de streaming deja de responder.
+
+---
+
+6. OPTIMIZACIÓN EXTREMA
+
+Esta es la sección más importante del proyecto.
+
+PRIMOW STREAM debe priorizar siempre los recursos del videojuego por encima de la aplicación de streaming.
+
+Implementar todas las optimizaciones técnicamente seguras y verificables.
+
+GPU
+
+- Utilizar NVENC dedicado.
+- Evitar procesamiento adicional innecesario.
+- Reducir copias de frames entre GPU y CPU cuando sea posible.
+- Reducir transferencias innecesarias de texturas.
+- Minimizar conversiones de formatos.
+- Utilizar aceleración por GPU para el escalado cuando resulte más eficiente.
+- Evitar una segunda codificación para la vista previa.
+- Evitar efectos gráficos innecesarios.
+- No utilizar filtros de video predeterminados.
+- Detectar saturación del procesamiento de video.
+- Evitar un uso de GPU que provoque pérdida importante de fluidez en CS2.
+
+CPU
+
+- Minimizar procesos e hilos innecesarios.
+- No utilizar codificación x264 cuando NVENC funcione.
+- No implementar procesamiento intensivo en la interfaz.
+- Evitar comprobaciones excesivamente frecuentes.
+- No utilizar motores web embebidos.
+- No realizar análisis de imagen innecesarios.
+- No utilizar prioridades extremas que perjudiquen al juego.
+
+RAM
+
+- Mantener buffers limitados y reutilizables.
+- No duplicar innecesariamente frames.
+- Liberar correctamente recursos audiovisuales.
+- Evitar fugas de memoria.
+- No conservar capturas de video innecesarias.
+
+Vista previa
+
+Incluir un modo:
+
+MÁXIMO RENDIMIENTO
+
+Este modo debe:
+
+- Ocultar la vista previa mientras se transmite.
+- Reducir actualizaciones visuales de métricas.
+- Desactivar efectos decorativos.
+- Mantener solamente el procesamiento necesario para transmitir.
+- Liberar recursos de renderizado de la interfaz que ya no se utilicen.
+
+Asegurar que ocultar la vista previa no interrumpa la captura ni la transmisión.
+
+Objetivos de rendimiento
+
+Intentar mantener:
+
+- Uso de RAM lo más bajo posible.
+- CPU al mínimo práctico.
+- Sobrecarga de GPU reducida.
+- Buena estabilidad de frametimes.
+- Streaming estable a 1080p60.
+
+No presentar porcentajes o cifras inventadas.
+
+Implementar benchmarks para demostrar los resultados.
+
+---
+
+7. CAPTURA DE COUNTER-STRIKE 2
+
+Este apartado necesita especial atención.
+
+El software debe detectar Counter-Strike 2 en ejecución.
+
+Implementar:
+
+1. Detección del proceso del juego.
+2. Selección de ventana compatible.
+3. Captura mediante métodos permitidos.
+4. Captura de ventana con Windows Graphics Capture cuando corresponda.
+5. Captura de pantalla como alternativa.
+6. Captura de juego solamente cuando sea compatible y autorizada.
+
+Priorizar compatibilidad con las restricciones de seguridad y antitrampas de CS2.
+
+No crear inyecciones no autorizadas ni métodos para saltarse protecciones del juego.
+
+Si la captura directa no funciona, ofrecer captura de ventana o pantalla y explicar cuando sea necesario utilizar modo ventana sin bordes.
+
+La aplicación debe detectar pantallas negras y avisar al usuario.
+
+Debe permitir capturar mi juego en 2560 × 1440 y transmitirlo en 1920 × 1080 a 60 FPS sin modificar la configuración de mi monitor.
+
+No alterar:
+
+- Resolución del escritorio.
+- Frecuencia de 480 Hz.
+- Sensibilidad del mouse.
+- Configuración gráfica del juego.
+- FPS máximos del juego.
+- Opciones de Steam.
+
+Debe evitar capturar involuntariamente notificaciones privadas en la medida en que la fuente seleccionada lo permita.
+
+---
+
+8. AUDIO
+
+Al iniciar, detectar automáticamente:
+
+- Micrófono predeterminado de Windows.
+- Dispositivo de reproducción predeterminado.
+- Otros dispositivos disponibles.
+
+Configuración por defecto:
+
+Micrófono: ENCENDIDO.
+
+Audio del juego: ENCENDIDO.
+
+Cámara web: APAGADA.
+
+Funciones:
+
+- Activar o desactivar micrófono.
+- Ajustar volumen del micrófono.
+- Silenciar audio del sistema.
+- Cambiar dispositivo de entrada.
+- Cambiar dispositivo de salida capturado.
+- Medidores de nivel de audio.
+- Protección contra duplicación de fuentes de audio.
+- Sincronización entre audio y video.
+
+Utilizar WASAPI y módulos compatibles de libobs.
+
+No activar reducción de ruido mediante inteligencia artificial de forma predeterminada.
+
+Evitar filtros intensivos que gasten CPU.
+
+Implementar un botón:
+
+PROBAR AUDIO
+
+Permitir verificar niveles sin iniciar una transmisión.
+
+---
+
+9. CONFIGURACIÓN AUTOMÁTICA
+
+PRIMOW STREAM debe detectar las características del computador.
+
+Al primer inicio:
+
+Paso 1: Detectar GPU y codificador disponible.
+
+Paso 2: Detectar juego, pantalla y dispositivos de audio.
+
+Paso 3: Configurar Kick mediante Stream Key y servidor.
+
+Paso 4: Aplicar configuración recomendada de transmisión.
+
+Paso 5: Mostrar botón INICIAR STREAM.
+
+Después de la configuración inicial, la aplicación debe abrir directamente con las preferencias guardadas.
+
+El usuario no debe repetir ajustes en cada ejecución.
+
+Crear perfiles sencillos:
+
+MÁXIMO RENDIMIENTO
+Priorizar bajo impacto sobre el juego.
+
+EQUILIBRADO
+Equilibrio entre calidad y recursos.
+
+MÁXIMA CALIDAD
+Mejor calidad compatible con la plataforma, si el hardware lo permite.
+
+La configuración inicial debe ser MÁXIMO RENDIMIENTO.
+
+Los perfiles deben cambiar parámetros reales, no ser etiquetas decorativas.
+
+---
+
+10. TRANSMISIÓN Y GRABACIÓN
+
+La primera versión debe funcionar correctamente con Kick.
+
+Diseñar el software de manera que en el futuro pueda agregar:
+
+- YouTube.
+- Twitch.
+- Servidores RTMP personalizados.
+- Transmisión a 1440p.
+- Transmisión 4K 60 FPS en plataformas compatibles.
+- Grabación local.
+- Capturas de pantalla.
+- Atajos de teclado.
+- Overlays simples.
+- Estadísticas avanzadas.
+
+No sacrificar el desarrollo de la primera versión por incorporar estas funciones adicionales.
+
+El sistema debe tener una arquitectura modular que permita agregarlas posteriormente.
+
+---
+
+11. ESTABILIDAD Y RECUPERACIÓN DE ERRORES
+
+Implementar:
+
+- Manejo seguro de errores del codificador.
+- Manejo de pérdida de conexión.
+- Reconexión automática limitada y configurable.
+- Cierre limpio de las sesiones RTMP/RTMPS.
+- Liberación de recursos tras detener la transmisión.
+- Aviso de dispositivos de audio desconectados.
+- Aviso cuando no hay fuente de video.
+- Aviso cuando NVENC no está disponible.
+- Indicadores de frames perdidos.
+- Detección de bitrate insuficiente.
+
+Nunca mostrar "EN VIVO" si el servidor todavía no ha aceptado la conexión.
+
+No iniciar otra transmisión accidental cuando se presiona repetidamente el botón.
+
+Evitar bloquear la interfaz mientras se conecta.
+
+Los logs deben almacenarse localmente y omitir datos secretos.
+
+---
+
+12. INSTALACIÓN EN WINDOWS: REQUISITO CRÍTICO
+
+PRIMOW STREAM DEBE PODER INSTALARSE EN MI COMPUTADOR Y FUNCIONAR SIN REPLIT.
+
+Esta condición es obligatoria.
+
+Necesito como resultado:
+
+PRIMOW-STREAM-Setup.exe
+
+Y, de ser posible, también:
+
+PRIMOW-STREAM-Portable.zip
+
+El instalador debe:
+
+- Funcionar en Windows 10/11 x64.
+- Instalar los archivos necesarios.
+- Incluir las bibliotecas compatibles.
+- Incluir los módulos necesarios de libobs.
+- Incorporar las dependencias Qt y sus plugins requeridos.
+- Incluir los componentes redistribuibles necesarios o instalar legítimamente sus prerrequisitos.
+- Crear un acceso directo.
+- Permitir desinstalación.
+- Guardar preferencias en AppData.
+- No requerir Replit.
+- No requerir servidor propio.
+- No requerir OBS Studio.
+- No requerir Visual Studio instalado en el PC del usuario.
+
+La única conexión externa indispensable durante una transmisión normal debe ser la necesaria para llegar al servidor de streaming y los servicios estrictamente asociados.
+
+Utilizar CMake y una solución apropiada para empaquetado, como CPack, NSIS o Inno Setup.
+
+No entregar un .exe incompleto que dependa de DLL ausentes.
+
+Comprobar que el paquete incluya las dependencias utilizadas legítimamente y los archivos de licencia correspondientes.
+
+---
+
+13. COMPILACIÓN DESDE REPLIT
+
+Entiendo que Replit puede trabajar en un entorno diferente de Windows.
+
+Por lo tanto, diseña una estrategia de compilación realista.
+
+Crear un repositorio completo que incluya:
+
+- Código C++.
+- Archivos Qt.
+- Configuración CMake.
+- Dependencias declaradas.
+- Scripts de compilación.
+- Configuración de empaquetado.
+- Documentación.
+- GitHub Actions para Windows.
+
+Crear un workflow:
+
+.github/workflows/windows-build.yml
+
+Que realice:
+
+1. Checkout del código.
+2. Instalación de herramientas necesarias.
+3. Preparación de dependencias.
+4. Compilación en Windows x64.
+5. Validación de los binarios.
+6. Empaquetado.
+7. Generación del instalador.
+8. Generación de ZIP portable.
+9. Publicación de artefactos descargables.
+10. Reporte de errores y registros de compilación.
+
+Utilizar un runner Windows compatible y MSVC.
+
+Mantener versiones de dependencias reproducibles.
+
+Si la compilación de libobs requiere procedimientos especiales, implementarlos y documentarlos.
+
+No reemplazar silenciosamente la aplicación nativa por un proyecto web porque resulte más fácil de ejecutar en Replit.
+
+Si Replit no tiene acceso a un entorno Windows, usar GitHub Actions o dejar una compilación Windows reproducible preparada.
+
+Si no cuentas con acceso a GitHub, entregar los archivos del workflow, el proyecto exportable y las instrucciones exactas para ejecutarlo.
+
+No afirmar que existe un instalador funcional hasta haberlo compilado y verificado.
+
+---
+
+14. LICENCIAS Y DISTRIBUCIÓN
+
+Revisar las obligaciones de las dependencias antes de empaquetar.
+
+Especialmente:
+
+- OBS Studio / libobs y componentes GPL.
+- Qt 6 y licencia correspondiente.
+- FFmpeg y licencias de los componentes utilizados.
+- Plugins redistribuidos.
+- Bibliotecas adicionales.
+- Componentes de codificación NVIDIA y sus condiciones.
+
+Evitar combinaciones de dependencias incompatibles.
+
+Incluir avisos legales, licencias y código fuente cuando sea exigido.
+
+Preparar el proyecto para distribución gratuita y legítima.
+
+No eliminar avisos de copyright ni ocultar componentes utilizados.
+
+---
+
+15. ORGANIZACIÓN DEL PROYECTO
+
+Usar una estructura clara y mantenible.
+
+Propuesta:
+
+PRIMOW-STREAM/
+
+- CMakeLists.txt
+- CMakePresets.json
+- README.md
+- LICENSE
+- THIRD_PARTY_LICENSES/
+- src/
+  - main.cpp
+  - app/
+  - ui/
+  - streaming/
+  - capture/
+  - audio/
+  - hardware/
+  - settings/
+  - security/
+  - diagnostics/
+- include/
+- assets/
+- resources/
+- packaging/
+- scripts/
+- tests/
+- .github/workflows/windows-build.yml
+
+Organizar las responsabilidades en clases y módulos independientes.
+
+Separar completamente interfaz, captura, audio, transmisión y configuración.
+
+No crear un único archivo gigante con todas las funciones.
+
+---
+
+16. PRUEBAS OBLIGATORIAS
+
+Crear pruebas reales de:
+
+Prueba 1: Inicio
+El programa abre correctamente en Windows sin Replit.
+
+Prueba 2: Hardware
+Detecta la RTX 4070 Super y comprueba que NVIDIA NVENC puede inicializarse.
+
+Prueba 3: Captura
+Captura una ventana o pantalla real y maneja adecuadamente fuentes incompatibles.
+
+Prueba 4: Audio
+Captura micrófono y audio del sistema sin duplicaciones.
+
+Prueba 5: Codificación
+Produce video H.264 válido a 1920 × 1080 y 60 FPS.
+
+Prueba 6: Transmisión
+Se conecta a un servidor RTMP/RTMPS de prueba y transmite video y audio reales.
+
+Prueba 7: Kick
+Validar manualmente una transmisión real hacia Kick, solamente con credenciales proporcionadas por el usuario.
+
+Prueba 8: Rendimiento
+Medir CPU, memoria, actividad GPU, frames perdidos y estabilidad durante la transmisión.
+
+Prueba 9: Recuperación
+Simular pérdida de conexión y comprobar el comportamiento.
+
+Prueba 10: Instalador
+Instalar el programa en un entorno Windows limpio y comprobar que abre sin herramientas de desarrollo.
+
+Distinguir pruebas automatizadas de pruebas manuales.
+
+No indicar que una prueba fue aprobada sin haberla ejecutado.
+
+---
+
+17. DESARROLLO EN ETAPAS
+
+No intentes desarrollar todas las funcionalidades futuras a la vez.
+
+Seguir este orden:
+
+Etapa A: Proyecto nativo
+
+Crear la estructura en C++, Qt y CMake.
+
+Configurar compilación Windows.
+
+Crear una ventana mínima real.
+
+Etapa B: Integración libobs
+
+Inicializar el motor.
+
+Detectar módulos, fuentes y dispositivos.
+
+Comprobar que la arquitectura puede ejecutar el motor audiovisual.
+
+Etapa C: Captura
+
+Implementar captura funcional de ventana y pantalla.
+
+Agregar soporte compatible para CS2.
+
+Etapa D: Audio
+
+Agregar micrófono y audio del sistema.
+
+Incorporar controles de volumen.
+
+Etapa E: Codificación
+
+Implementar NVIDIA NVENC H.264.
+
+Configurar 1080p60 CBR.
+
+Etapa F: Transmisión
+
+Implementar RTMP/RTMPS con servidor configurable.
+
+Validar conexión y estados de transmisión.
+
+Etapa G: Interfaz definitiva
+
+Crear la pantalla minimalista PRIMOW STREAM.
+
+Agregar botones funcionales.
+
+Etapa H: Optimización
+
+Reducir procesos innecesarios.
+
+Implementar el modo MÁXIMO RENDIMIENTO.
+
+Medir resultados.
+
+Etapa I: Distribución
+
+Crear el instalador Windows.
+
+Agregar ZIP portable.
+
+Preparar la entrega final.
+
+En cada etapa generar código funcional, registrar los resultados y mantener el proyecto compilable.
+
+No sustituir pruebas reales por simulaciones.
+
+---
+
+18. RESULTADO FINAL ESPERADO
+
+Quiero poder seguir esta secuencia:
+
+1. Descargar PRIMOW-STREAM-Setup.exe.
+2. Instalarlo en mi PC.
+3. Abrir PRIMOW STREAM desde el escritorio.
+4. Seleccionar Counter-Strike 2.
+5. Configurar mi Stream Key de Kick una sola vez.
+6. Verificar que el micrófono funciona.
+7. Presionar INICIAR STREAM.
+8. Transmitir a Kick en 1080p y 60 FPS usando NVIDIA NVENC.
+9. Seguir jugando CS2 a mi resolución y frecuencia habituales.
+10. Presionar DETENER STREAM al terminar.
+
+Todo sin abrir Replit, una página web ni OBS Studio.
+
+ENTREGABLES OBLIGATORIOS:
+
+- Proyecto completo con código fuente.
+- Documentación técnica.
+- Configuración de compilación Windows.
+- Workflow automatizado para generar el programa.
+- Instalador .exe, si se consigue compilar y verificar.
+- Versión portable, si es viable.
+- Informe de pruebas realizadas.
+- Lista clara de funcionalidades terminadas y pendientes.
+
+RESTRICCIONES FINALES:
+
+No quiero demos falsas.
+
+No quiero botones decorativos sin funcionalidad.
+
+No quiero simulaciones de streaming.
+
+No quiero depender de una web.
+
+No quiero una aplicación Electron.
+
+No quiero que se genere un proyecto completamente distinto sin solicitarlo.
+
+No quiero promesas de rendimiento sin pruebas.
+
+INSTRUCCIÓN FINAL PARA REPLIT AGENT:
+
+Comienza evaluando las dependencias y la viabilidad de compilación de libobs con Qt 6 en Windows.
+
+Después crea directamente la estructura real del proyecto y empieza su implementación.
+
+Prioriza una primera versión que pueda capturar una ventana, capturar audio, codificar con NVENC y transmitir por RTMPS.
+
+No te detengas después de generar el diseño.
+
+Trabaja hacia un programa de escritorio verdaderamente funcional y distribuible.
+
+El éxito del proyecto no será tener una interfaz bonita, sino poder abrir PRIMOW STREAM en Windows, presionar INICIAR STREAM y transmitir realmente a Kick utilizando codificación por hardware, con el menor impacto práctico posible sobre el rendimiento de CS2.
