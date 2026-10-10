@@ -1,4 +1,4 @@
-name: PRIMOW STREAM Windows build
+name: NERON STREAM PROJECT Windows build
 on:
   workflow_dispatch:
   push:
@@ -17,16 +17,16 @@ jobs:
       - name: Build native Windows application and development packages
         shell: pwsh
         run: |
-          Start-Transcript -Path "$env:RUNNER_TEMP/primow-build.log"
+          Start-Transcript -Path "$env:RUNNER_TEMP/neron-build.log"
           try { ./native/primow-stream/scripts/build-windows.ps1 }
           finally { Stop-Transcript }
       - name: Upload development binaries (not hardware-validated)
         uses: actions/upload-artifact@v4
         with:
-          name: PRIMOW-STREAM-Windows-development
+          name: NERON-STREAM-PROJECT-Windows-development
           path: |
-            generated-artifacts/windows/PRIMOW-STREAM-Setup.exe
-            generated-artifacts/windows/PRIMOW-STREAM-Portable.zip
+            generated-artifacts/windows/NERON-STREAM-PROJECT-Setup.exe
+            generated-artifacts/windows/NERON-STREAM-PROJECT-Portable.zip
           if-no-files-found: error
       - name: Upload logs
         if: always()
@@ -34,5 +34,5 @@ jobs:
         with:
           name: windows-build-logs
           path: |
-            ${{ runner.temp }}/primow-build.log
+            ${{ runner.temp }}/neron-build.log
             generated-artifacts/windows/obs/build_x64/CMakeFiles/CMakeConfigureLog.yaml

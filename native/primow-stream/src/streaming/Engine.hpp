@@ -1,6 +1,8 @@
 #pragma once
 #include <QObject>
 #include <QStringList>
+#include <QVector>
+#include <QPair>
 #include <obs.h>
 namespace primow {
 enum class Capture { Window, Game, Display };
@@ -20,6 +22,12 @@ public:
     bool busy() const { return running; }
     QString metrics();
     bool captureReady() const;
+    QVector<QPair<QString, QString>> cameras() const;
+    void enableCamera(const QString &deviceId);
+    void disableCamera();
+    void positionCamera(int corner, int width);
+    bool cameraEnabled() const { return camera != nullptr; }
+    bool cameraReady() const;
 signals:
     void stateChanged(QString state);
 private:
@@ -27,6 +35,8 @@ private:
     obs_source_t *capture = nullptr, *mic = nullptr, *sound = nullptr;
     obs_scene_t *scene = nullptr;
     obs_sceneitem_t *item = nullptr;
+    obs_source_t *camera = nullptr;
+    obs_sceneitem_t *cameraItem = nullptr;
     obs_output_t *output = nullptr;
     obs_service_t *service = nullptr;
     obs_encoder_t *video = nullptr, *aac = nullptr;

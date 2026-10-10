@@ -1,4 +1,4 @@
-# PRIMOW STREAM — desarrollo nativo
+# NERON STREAM PROJECT — desarrollo nativo
 
 Aplicación Windows x64 en C++20, Qt 6 Widgets y libobs. No es una web,
 no usa Electron y no necesita Replit ni OBS Studio instalado para ejecutarse
@@ -7,7 +7,7 @@ una vez correctamente empaquetada. **Todavía no compilada ni verificada en Wind
 ## Compilar
 
 1. Copiar el repositorio a GitHub, conservando `.github/workflows/windows-build.yml`.
-2. Abrir Actions → PRIMOW STREAM Windows build → Run workflow.
+2. Abrir Actions → NERON STREAM PROJECT Windows build → Run workflow.
 3. Si la compilación termina, descargar el artefacto Windows-development.
    Un ZIP generado no certifica captura, NVENC, transmisión ni instalación.
 4. Ante fallos, descargar windows-build-logs. No incluir claves en el informe.
@@ -22,7 +22,7 @@ Ejecutar desde la raíz:
 
 La primera compilación descarga OBS 31.0.3 y sus dependencias fijadas por
 buildspec.json (incluye hashes); usa su grafo CMake para evitar mezclar ABIs.
-El script añade PRIMOW a la copia de OBS descargada, no modifica el repositorio
+El script añade NERON STREAM PROJECT a la copia de OBS descargada, no modifica el repositorio
 original. OBS UI, navegador, scripting y otras funciones no necesarias se desactivan.
 Las DLL y los plugins de Qt se empaquetan con el mecanismo de dependencias de
 OBS 31.0.3. No se usa `windeployqt`: el paquete Qt fijado por OBS lo desactiva.
@@ -34,6 +34,16 @@ La versión 31.0.3 es una base fijada e inspeccionada, no una afirmación de ser
 MSVC y herramientas del runner aún no son herméticas: revisar actualizaciones del runner.
 
 ## Implementación presente, pendiente de validación Windows
+
+- Nombre público NERON STREAM PROJECT, ejecutable `neron-stream-project.exe`,
+  instalador `NERON-STREAM-PROJECT-Setup.exe` y ZIP `NERON-STREAM-PROJECT-Portable.zip`.
+- Cámara web DirectShow opcional: selección de dispositivo, encendido/apagado,
+  cuatro esquinas y tres tamaños. El esquema de posición no es una vista previa de vídeo.
+  No se abre automáticamente al arrancar; apagarla libera la fuente.
+  La posición se puede ajustar en vivo y permanece por encima de la fuente del juego.
+  Su audio no se mezcla: el micrófono principal sigue siendo independiente.
+  Se usa el formato nativo predeterminado del dispositivo; no se promete ahorro medido
+  de CPU/GPU ni compatibilidad con una cámara que no haya sido probada.
 
 - Enumeración de ventanas visibles de cualquier ejecutable, sin lista cerrada de juegos.
 - Selector de destino RTMP(S) para Kick, Twitch, TikTok LIVE y cualquier servidor personalizado.
@@ -73,8 +83,15 @@ muestre por su cuenta. No existe garantía de compatibilidad con todos los juego
 
 Preferencias no secretas: QSettings en AppData. Stream Key: Windows Credential Manager.
 Para borrar una clave: Administrador de credenciales → Credenciales de Windows →
-PRIMOW-STREAM/Kick, PRIMOW-STREAM/Twitch, PRIMOW-STREAM/TikTok o
-PRIMOW-STREAM/Personalizado. No introducir claves en GitHub Actions.
+NERON-STREAM-PROJECT/Kick, NERON-STREAM-PROJECT/Twitch,
+NERON-STREAM-PROJECT/TikTok o NERON-STREAM-PROJECT/Personalizado.
+Las claves antiguas PRIMOW-STREAM se leen como compatibilidad hasta guardar
+la configuración con el nuevo nombre. No introducir claves en GitHub Actions.
+
+La ruta de fuentes `native/primow-stream`, el namespace, el AppId del instalador
+y la identidad interna de QSettings se conservan para no romper actualizaciones
+ni perder preferencias. No son la marca pública del producto. El nombre del
+repositorio de GitHub y del proyecto en Replit se administra fuera del código.
 
 ## Pruebas
 

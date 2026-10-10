@@ -1,4 +1,5 @@
 #include "MainWindow.hpp"
+#include "CameraControls.hpp"
 #include "../security/Credentials.hpp"
 #include <QCheckBox>
 #include <QCloseEvent>
@@ -33,7 +34,7 @@ static QString serviceFor(const QString &id) {
     return "Personalizado";
 }
 MainWindow::MainWindow() {
-    setWindowTitle("PRIMOW STREAM · Windows");
+    setWindowTitle("NERON STREAM PROJECT · Windows");
     resize(1040, 820);
     setMinimumSize(900, 620);
     auto scroll = new QScrollArea(this);
@@ -47,7 +48,7 @@ MainWindow::MainWindow() {
 
     auto header = new QHBoxLayout;
     auto heading = new QVBoxLayout;
-    auto title = new QLabel("PRIMOW STREAM");
+    auto title = new QLabel("NERON STREAM PROJECT");
     title->setObjectName("title");
     auto subtitle = new QLabel("Transmisión para juegos y aplicaciones de Windows");
     subtitle->setObjectName("subtitle");
@@ -159,6 +160,7 @@ MainWindow::MainWindow() {
 
     loadPlatformSettings();
     engine.initialize();
+    columns->addWidget(new CameraControls(engine), 2, 0, 1, 2);
     refresh();
     connect(refreshButton, &QPushButton::clicked, this, &MainWindow::refresh);
     connect(apply, &QPushButton::clicked, this, &MainWindow::select);
@@ -244,7 +246,7 @@ MainWindow::MainWindow() {
 }
 void MainWindow::attempt(const std::function<void()> &fn) {
     try { fn(); }
-    catch (const std::exception &e) { QMessageBox::warning(this, "PRIMOW STREAM", QString::fromUtf8(e.what())); }
+    catch (const std::exception &e) { QMessageBox::warning(this, "NERON STREAM PROJECT", QString::fromUtf8(e.what())); }
 }
 void MainWindow::refresh() {
     const auto selected = sources->currentData().toString();
@@ -268,7 +270,7 @@ void MainWindow::loadPlatformSettings() {
         server->setPlaceholderText("Servidor RTMP que te entrega TikTok LIVE");
         platformHelp->setText("TikTok exige acceso a LIVE desde PC y una URL de servidor y clave "
                               "proporcionadas en TikTok LIVE Center. Si no aparecen en tu cuenta, "
-                              "PRIMOW no puede generarlas ni habilitar ese acceso.");
+                              "NERON STREAM PROJECT no puede generarlas ni habilitar ese acceso.");
     } else if (id == "custom") {
         server->setPlaceholderText("rtmps://servidor:443/app");
         platformHelp->setText("Introduce el servidor RTMP(S) y la clave entregados por tu plataforma.");

@@ -1,6 +1,8 @@
-# PRIMOW STREAM
+# NERON STREAM PROJECT
 
 Proyecto principal: aplicación nativa Windows en `native/primow-stream`.
+El nombre de producto es NERON STREAM PROJECT. Se conservan la ruta interna y
+los identificadores de actualización/configuración antiguos para compatibilidad.
 Consultar su README y `docs/VALIDATION.md` para compilación y estado real.
 Las carpetas pnpm siguientes son plantilla preexistente, no el motor de streaming.
 No reemplazar el producto nativo por una web. Windows/MSVC son necesarios para

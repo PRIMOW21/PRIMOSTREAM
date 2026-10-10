@@ -53,7 +53,7 @@ void Engine::initialize() {
     obs_audio_info ai{}; ai.samples_per_sec = 48000; ai.speakers = SPEAKERS_STEREO;
     require(obs_reset_audio(&ai), "No se pudo inicializar audio");
     obs_load_all_modules(); obs_post_load_modules();
-    scene = obs_scene_create("PRIMOW");
+    scene = obs_scene_create("NERON STREAM PROJECT");
     require(scene, "No se pudo crear la escena");
     obs_set_output_source(0, obs_scene_get_source(scene));
     auto settings = obs_data_create();
@@ -87,6 +87,7 @@ void Engine::select(Capture method, const QString &window, const QString &monito
     obs_sceneitem_set_bounds_type(nextItem, OBS_BOUNDS_SCALE_INNER);
     vec2 bounds{1920.0f, 1080.0f};
     obs_sceneitem_set_bounds(nextItem, &bounds);
+    if (cameraItem) obs_sceneitem_set_order(cameraItem, OBS_ORDER_MOVE_TOP);
     if (item) obs_sceneitem_remove(item);
     item = nextItem;
     obs_leave_graphics();
@@ -197,6 +198,7 @@ void Engine::releaseOutput() {
 Engine::~Engine() {
     releaseOutput();
     if (initialized) {
+        disableCamera();
         for (int i = 0; i < 3; ++i) obs_set_output_source(i, nullptr);
         if (scene) obs_scene_release(scene);
         if (capture) obs_source_release(capture);

@@ -47,5 +47,13 @@ una nueva compilación CI y una prueba de ejecución en Windows.
    Registrar versiones, duración, FPS medios, p95/p99 frametime y frames perdidos.
    No extrapolar resultados de un juego al resto.
 10. Confirmar que monitor sigue a su resolución y frecuencia originales.
+11. Cámara: inicio con cámara apagada; enumeración sin activación; permiso de cámara
+    denegado, dispositivo ocupado y desconexión. Probar las cuatro esquinas y tres
+    tamaños en recepción, sin deformación. Cambiar juego/pantalla mientras transmite:
+    la cámara debe seguir encima. Apagarla debe liberar el dispositivo y no afectar
+    al micrófono. El esquema de posición no verifica la imagen real.
+12. Renombrado: comprobar ejecutable, accesos directos, instalador y ZIP NERON STREAM
+    PROJECT; actualizar una instalación anterior conservando preferencias y claves.
+    La revisión con cámara y nueva marca aún no se ha compilado en Windows.
 
 Resultado actual de todas las pruebas anteriores: **NO EJECUTADAS**.

@@ -6,8 +6,10 @@
 #include <QDir>
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
+    // Keep the existing settings identity so upgrades retain local preferences.
     QCoreApplication::setOrganizationName("PRIMOW");
     QCoreApplication::setApplicationName("PRIMOW STREAM");
+    QApplication::setApplicationDisplayName("NERON STREAM PROJECT");
     QSettings::setDefaultFormat(QSettings::IniFormat);
     const auto settingsPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDir().mkpath(settingsPath);
@@ -47,6 +49,6 @@ int main(int argc, char **argv) {
         "QScrollBar::add-line:vertical,QScrollBar::sub-line:vertical{height:0;}");
     try { primow::MainWindow window; window.show(); return app.exec(); }
     catch (const std::exception &e) {
-        QMessageBox::critical(nullptr, "PRIMOW STREAM", QString::fromUtf8(e.what())); return 1;
+        QMessageBox::critical(nullptr, "NERON STREAM PROJECT", QString::fromUtf8(e.what())); return 1;
     }
 }

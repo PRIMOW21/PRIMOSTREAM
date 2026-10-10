@@ -3,23 +3,31 @@
 #endif
 [Setup]
 AppId=PrimowStream
-AppName=PRIMOW STREAM
-AppVersion=0.1.0
-DefaultDirName={autopf}\PRIMOW STREAM
-DefaultGroupName=PRIMOW STREAM
+; Keep the upgrade identity; the public product name has changed.
+AppName=NERON STREAM PROJECT
+AppVersion=0.2.0
+DefaultDirName={autopf}\NERON STREAM PROJECT
+DefaultGroupName=NERON STREAM PROJECT
+UsePreviousGroup=no
 OutputDir={#Output}
-OutputBaseFilename=PRIMOW-STREAM-Setup
+OutputBaseFilename=NERON-STREAM-PROJECT-Setup
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0.17763
 Compression=lzma2
 SolidCompression=yes
 PrivilegesRequired=admin
-UninstallDisplayIcon={app}\bin\64bit\primow-stream.exe
+UninstallDisplayIcon={app}\bin\64bit\neron-stream-project.exe
 [Files]
 Source: "{#Stage}\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
 [Icons]
-Name: "{group}\PRIMOW STREAM"; Filename: "{app}\bin\64bit\primow-stream.exe"; WorkingDir: "{app}\bin\64bit"
-Name: "{autodesktop}\PRIMOW STREAM"; Filename: "{app}\bin\64bit\primow-stream.exe"; WorkingDir: "{app}\bin\64bit"
+Name: "{group}\NERON STREAM PROJECT"; Filename: "{app}\bin\64bit\neron-stream-project.exe"; WorkingDir: "{app}\bin\64bit"
+Name: "{autodesktop}\NERON STREAM PROJECT"; Filename: "{app}\bin\64bit\neron-stream-project.exe"; WorkingDir: "{app}\bin\64bit"
+[InstallDelete]
+Type: files; Name: "{group}\PRIMOW STREAM.lnk"
+Type: files; Name: "{userprograms}\PRIMOW STREAM\PRIMOW STREAM.lnk"
+Type: files; Name: "{commonprograms}\PRIMOW STREAM\PRIMOW STREAM.lnk"
+Type: files; Name: "{autodesktop}\PRIMOW STREAM.lnk"
+Type: files; Name: "{app}\bin\64bit\primow-stream.exe"
 [Run]
-Filename: "{app}\bin\64bit\primow-stream.exe"; Description: "Abrir PRIMOW STREAM"; Flags: postinstall nowait skipifsilent
+Filename: "{app}\bin\64bit\neron-stream-project.exe"; Description: "Abrir NERON STREAM PROJECT"; Flags: postinstall nowait skipifsilent

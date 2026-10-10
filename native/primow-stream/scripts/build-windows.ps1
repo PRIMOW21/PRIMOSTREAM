@@ -17,7 +17,7 @@ $Commit = (& git -C $Obs rev-parse HEAD).Trim()
 if ($Commit -ne "fcd1910bf5116b69404a6ecdda6efedd1d00ebdf") { throw "Unexpected OBS revision" }
 $Top = "$Obs/CMakeLists.txt"
 $Original = (& git -C $Obs show HEAD:CMakeLists.txt) -join "`n"
-# Build PRIMOW inside OBS's configured dependency graph, without the OBS UI.
+# Build NERON STREAM PROJECT inside OBS's dependency graph, without the OBS UI.
 Set-Content $Top ($Original + "`nadd_subdirectory(`"$App`" primow-stream)`n")
 Push-Location $Obs
 try {
@@ -29,10 +29,15 @@ try {
     Run cmake @("--install", "build_x64", "--config", "Release", "--prefix", $Stage)
 } finally { Pop-Location }
 # CMake installs runtime dependencies using the pinned OBS Windows bundler.
-$Required = @("bin/64bit/primow-stream.exe", "bin/64bit/obs.dll",
+# Remove only obsolete generated launchers when reusing a previous build stage.
+foreach ($LegacyFile in @("$Stage/bin/64bit/primow-stream.exe", "$Stage/PRIMOW-STREAM.cmd")) {
+    if (Test-Path $LegacyFile) { Remove-Item -Force $LegacyFile }
+}
+$Required = @("bin/64bit/neron-stream-project.exe", "bin/64bit/obs.dll",
     "bin/64bit/libobs-d3d11.dll", "bin/64bit/platforms/qwindows.dll",
     "bin/64bit/Qt6Core.dll", "bin/64bit/Qt6Gui.dll", "bin/64bit/Qt6Widgets.dll",
     "obs-plugins/64bit/win-capture.dll", "obs-plugins/64bit/win-wasapi.dll",
+    "obs-plugins/64bit/win-dshow.dll",
     "obs-plugins/64bit/obs-nvenc.dll", "obs-plugins/64bit/obs-ffmpeg.dll",
     "obs-plugins/64bit/obs-outputs.dll", "obs-plugins/64bit/rtmp-services.dll")
 foreach ($File in $Required) {
@@ -45,9 +50,9 @@ Copy-Item "$App/README.md" "$Stage/README.md"
 @"
 @echo off
 cd /d "%~dp0bin\64bit"
-start "" primow-stream.exe
-"@ | Set-Content "$Stage/PRIMOW-STREAM.cmd"
-Compress-Archive -Force "$Stage/*" "$Work/PRIMOW-STREAM-Portable.zip"
+start "" neron-stream-project.exe
+"@ | Set-Content "$Stage/NERON-STREAM-PROJECT.cmd"
+Compress-Archive -Force "$Stage/*" "$Work/NERON-STREAM-PROJECT-Portable.zip"
 $ISCC = "${env:ProgramFiles(x86)}/Inno Setup 6/ISCC.exe"
 if (!(Test-Path $ISCC)) { throw "Install Inno Setup 6 to generate Setup.exe" }
 Run $ISCC @("/DStage=$Stage", "/DOutput=$Work", "$App/packaging/setup.iss")
