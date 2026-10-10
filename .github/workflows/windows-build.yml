@@ -11,6 +11,9 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+      - name: Install Inno Setup
+        shell: pwsh
+        run: choco install innosetup --yes --no-progress
       - name: Build native Windows application and development packages
         shell: pwsh
         run: |
